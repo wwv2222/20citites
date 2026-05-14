@@ -95,7 +95,8 @@ for bw in BANDWIDTHS:
     rdd_bw = raw[
         (raw["is_water"] == 0) &
         (raw["city"].isin(PARK_CITIES_RAW)) &
-        ((raw["in_park_patch"] == 1) | (raw["dist_to_park_m"] <= bw))
+        ((raw["in_park_patch"] == 1) | (raw["dist_to_park_m"] <= bw)) &
+        (raw["year"].between(2011, 2021))
     ].copy()
     rdd_bw["running_var"] = rdd_bw["dist_to_park_m"].fillna(0)
     rdd_bw["D"] = rdd_bw["in_park_patch"].astype(int)
@@ -161,7 +162,8 @@ placebo_results = []
 rdd_base = raw[
     (raw["is_water"] == 0) &
     (raw["city"].isin(PARK_CITIES_RAW)) &
-    ((raw["in_park_patch"] == 1) | (raw["dist_to_park_m"] <= 1000))
+    ((raw["in_park_patch"] == 1) | (raw["dist_to_park_m"] <= 1000)) &
+    (raw["year"].between(2011, 2021))
 ].copy()
 rdd_base["running_var"] = rdd_base["dist_to_park_m"].fillna(0)
 rdd_base["D"] = rdd_base["in_park_patch"].astype(int)
@@ -300,7 +302,8 @@ for dropped in PARK_DIST_CITIES:
     rdd_loco = raw[
         (raw["is_water"] == 0) &
         (raw["city"].isin(remaining_raw)) &
-        ((raw["in_park_patch"] == 1) | (raw["dist_to_park_m"] <= 1000))
+        ((raw["in_park_patch"] == 1) | (raw["dist_to_park_m"] <= 1000)) &
+        (raw["year"].between(2011, 2021))
     ].copy()
     rdd_loco["running_var"] = rdd_loco["dist_to_park_m"].fillna(0)
     rdd_loco["D"] = rdd_loco["in_park_patch"].astype(int)
